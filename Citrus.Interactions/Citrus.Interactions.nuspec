@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Citrus.Interactions</id>
+    <version>1.1.0-alpha</version>
+    <authors>KatsuYuzu</authors>
+    <description>Citrus Interactions - Action / Behavior library for UniversalApp</description>
+    <tags>WinRT WindowsPhone Blend Interactivity</tags>
+    <copyright>Copyright 2014 KatsuYuzu</copyright>
+    <licenseUrl>https://citrusinteractions.codeplex.com/license</licenseUrl>
+    <projectUrl>https://citrusinteractions.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+  </metadata>
+  <files>
+    <!-- Windows 8.1-->
+    <file src="Citrus.Interactions\bin\Release\Citrus.Interactions.dll" target="lib\win81" />
+    <file src="Citrus.Interactions\bin\Release\Citrus.Interactions.xml" target="lib\win81" />
+    <file src="Citrus.Interactions.Windows\bin\Release\Citrus.Interactions.Windows.dll" target="lib\win81" />
+    <file src="Citrus.Interactions.Windows\bin\Release\Citrus.Interactions.Windows.xml" target="lib\win81" />
+
+    <!-- Windows Phone 8.1 -->
+    <file src="Citrus.Interactions\bin\Release\Citrus.Interactions.dll" target="lib\wpa81" />
+    <file src="Citrus.Interactions\bin\Release\Citrus.Interactions.xml" target="lib\wpa81" />
+    <file src="Citrus.Interactions.Phone\bin\Release\Citrus.Interactions.Phone.dll" target="lib\wpa81" />
+    <file src="Citrus.Interactions.Phone\bin\Release\Citrus.Interactions.Phone.xml" target="lib\wpa81" />
+  </files>
+</package>
