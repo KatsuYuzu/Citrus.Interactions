@@ -11,6 +11,9 @@ PM> Install-Package Citrus.Interactions
 
 History
 -------
+ver 1.1.1-alpha - 2014-05-07
+* Changed CodePlex to GitHub
+
 ver 1.1.0-alpha - 2014-05-06
 * Changed target to UniversalApp
 

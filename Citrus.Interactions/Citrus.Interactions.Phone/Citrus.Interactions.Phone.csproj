@@ -87,14 +87,14 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
     <Compile Include="..\Citrus.Interactions.Windows\CaputurePhotoAction.cs">
       <Link>CaputurePhotoAction.cs</Link>
     </Compile>
     <Compile Include="..\Citrus.Interactions.Windows\PickPhotoAction.cs">
       <Link>PickPhotoAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Citrus.Interactions\Properties\AssemblyInfo.Common.cs">
+      <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
     <Compile Include="ContinuationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

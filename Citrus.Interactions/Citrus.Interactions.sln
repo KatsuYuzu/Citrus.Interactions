@@ -18,9 +18,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citrus.Interactions.Phone",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40DF71C9-2BD4-40FE-B863-6773DD2DFD04}"
 	ProjectSection(SolutionItems) = preProject
-		AssemblyInfo.Common.cs = AssemblyInfo.Common.cs
-		Citrus.Interactions.nuspec = Citrus.Interactions.nuspec
-		pack.bat = pack.bat
+		..\Package\Citrus.Interactions.nuspec = ..\Package\Citrus.Interactions.nuspec
+		..\Package\install.ps1 = ..\Package\install.ps1
+		..\Package\pack.bat = ..\Package\pack.bat
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

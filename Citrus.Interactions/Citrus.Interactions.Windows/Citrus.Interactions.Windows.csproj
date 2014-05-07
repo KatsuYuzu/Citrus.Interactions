@@ -109,7 +109,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
+    <Compile Include="..\Citrus.Interactions\Properties\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
     <Compile Include="PickPhotoAction.cs" />
