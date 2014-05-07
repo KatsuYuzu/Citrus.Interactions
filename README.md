@@ -1,6 +1,6 @@
 Citrus.Interactions
 ===================
-Citrus Interactions - Action / Behavior library for UniversalApp
+Citrus.Interactions - Action / Behavior library for UniversalApp
 
 Install
 -------
