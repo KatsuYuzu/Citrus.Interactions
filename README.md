@@ -12,7 +12,7 @@ PM> Install-Package Citrus.Interactions
 History
 -------
 ver 1.1.1-alpha - 2014-05-07
-* Changed CodePlex to GitHub
+* Manually install of Behaviors SDK are now not required.
 
 ver 1.1.0-alpha - 2014-05-06
 * Changed target to UniversalApp
