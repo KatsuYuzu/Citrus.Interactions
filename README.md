@@ -13,6 +13,7 @@ History
 -------
 ver 1.1.0-alpha - 2014-05-06
 * Changed target to UniversalApp
+
 ver 1.0.0.0 - 2014-03-19
 * Released
 
