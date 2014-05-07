@@ -4,8 +4,9 @@
     <id>Citrus.Interactions</id>
     <version>1.1.1-alpha</version>
     <authors>KatsuYuzu</authors>
-    <description>Citrus Interactions - Action / Behavior library for UniversalApp</description>
+    <description>Citrus.Interactions - Action / Behavior library for UniversalApp</description>
     <releaseNotes>
+      <![CDATA[
       ver 1.1.1-alpha - 2014-05-07
       * Manually install of Behaviors SDK are now not required.
 
@@ -13,7 +14,7 @@
       * Changed target to UniversalApp
 
       ver 1.0.0.0 - 2014-03-19
-      * Released
+      * Released]]>
     </releaseNotes>
     <projectUrl>https://github.com/KatsuYuzu/Citrus.Interactions</projectUrl>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
