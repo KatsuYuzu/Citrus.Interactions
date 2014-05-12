@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Citrus.Interactions;
+using Microsoft.Practices.Unity;
+using PrismAdapter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +31,7 @@ namespace Sample
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
 #endif
+        private UnityContainer container = new UnityContainer();
 
         /// <summary>
         /// 単一アプリケーション オブジェクトを初期化します。これは、実行される作成したコードの
@@ -36,7 +40,6 @@ namespace Sample
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += this.OnSuspending;
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace Sample
         /// 検索結果やその他の情報を表示するために使用されます。
         /// </summary>
         /// <param name="e">起動要求とプロセスの詳細を表示します。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -53,56 +56,19 @@ namespace Sample
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // ウィンドウに既にコンテンツが表示されている場合は、アプリケーションの初期化を繰り返さずに、
-            // ウィンドウがアクティブであることだけを確認してください
-            if (rootFrame == null)
+            // Create bootstrapper.
+            var boot = new PrismAdapterBootstrapper
             {
-                // ナビゲーション コンテキストとして動作するフレームを作成し、最初のページに移動します
-                rootFrame = new Frame();
+                // customize resolve process.
+                Resolve = type => this.container.Resolve(type)
+            };
 
-                // TODO: この値をアプリケーションに適切なキャッシュ サイズに変更します
-                rootFrame.CacheSize = 1;
+            // setup and run application.
+            await boot.Setup(e);
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: 以前中断したアプリケーションから状態を読み込みます。
-                }
-
-                // フレームを現在のウィンドウに配置します
-                Window.Current.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-            {
-#if WINDOWS_PHONE_APP
-                // スタートアップのターンスタイル ナビゲーションを削除します。
-                if (rootFrame.ContentTransitions != null)
-                {
-                    this.transitions = new TransitionCollection();
-                    foreach (var c in rootFrame.ContentTransitions)
-                    {
-                        this.transitions.Add(c);
-                    }
-                }
-
-                rootFrame.ContentTransitions = null;
-                rootFrame.Navigated += this.RootFrame_FirstNavigated;
-#endif
-
-                // ナビゲーションの履歴スタックが復元されていない場合、最初のページに移動します。
-                // このとき、必要な情報をナビゲーション パラメーターとして渡して、新しいページを
-                // 作成します
-                if (!rootFrame.Navigate(typeof(MainPage), e.Arguments))
-                {
-                    throw new Exception("Failed to create initial page");
-                }
-            }
-
-            // 現在のウィンドウがアクティブであることを確認します
-            Window.Current.Activate();
+            // register instances and types.
+            boot.RegistPrismInstanceTo(this.container)
+                .Run(nav => nav.Navigate("Main", e.Arguments));
         }
 
 #if WINDOWS_PHONE_APP
@@ -114,24 +80,22 @@ namespace Sample
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
-            rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
+            rootFrame.ContentTransitions =
+                this.transitions
+                ?? (this.transitions = new TransitionCollection() { new NavigationThemeTransition() });
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
-#endif
 
-        /// <summary>
-        /// アプリケーションの実行が中断されたときに呼び出されます。アプリケーションの状態は、
-        /// アプリケーションが終了されるのか、メモリの内容がそのままで再開されるのか
-        /// わからない状態で保存されます。
-        /// </summary>
-        /// <param name="sender">中断要求の送信元。</param>
-        /// <param name="e">中断要求の詳細。</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        protected override void OnActivated(IActivatedEventArgs args)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            base.OnActivated(args);
 
-            // TODO: アプリケーションの状態を保存してバックグラウンドの動作があれば停止します
-            deferral.Complete();
+            var e = args as IContinuationActivatedEventArgs;
+            if (e != null)
+            {
+                new ContinuationManager().Continue(e);
+            }
         }
+#endif
     }
 }
