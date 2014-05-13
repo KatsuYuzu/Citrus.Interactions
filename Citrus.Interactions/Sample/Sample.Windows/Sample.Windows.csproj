@@ -121,12 +121,6 @@
     <Content Include="Assets\StoreLogo.scale-100.png" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Citrus.Interactions">
-      <HintPath>..\..\packages\Citrus.Interactions.1.1.1-alpha\lib\win81\Citrus.Interactions.dll</HintPath>
-    </Reference>
-    <Reference Include="Citrus.Interactions.Windows">
-      <HintPath>..\..\packages\Citrus.Interactions.1.1.1-alpha\lib\win81\Citrus.Interactions.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.StoreApps">
       <HintPath>..\..\packages\Prism.StoreApps.1.1.0\lib\windows8\Microsoft.Practices.Prism.StoreApps.dll</HintPath>
     </Reference>
@@ -150,6 +144,16 @@
     <SDKReference Include="BehaviorsXamlSDKManaged, version=12.0">
       <Name>Behaviors SDK %28XAML%29</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Citrus.Interactions.Windows\Citrus.Interactions.Windows.csproj">
+      <Project>{cc03841a-3d6d-47f1-b9dd-68d66463c754}</Project>
+      <Name>Citrus.Interactions.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Citrus.Interactions\Citrus.Interactions.csproj">
+      <Project>{b13403ff-6c1a-45bb-bbec-05c99441e238}</Project>
+      <Name>Citrus.Interactions</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
