@@ -106,29 +106,23 @@ namespace Citrus.Interactions
         private async static Task ExecuteAsync(WrappedCameraCaptureUIPhotoFormat format, ICommand callbakCommand, ICommand errorHandleCommand)
         {
             StorageFile photo;
+
             try
             {
                 photo = await CaputurePhotoAsync(format);
             }
             catch (Exception ex)
             {
-                if (errorHandleCommand != null && errorHandleCommand.CanExecute(ex))
-                {
-                    errorHandleCommand.Execute(ex);
-                    return;
-                }
-                else
-                {
-                    throw;
-                };
-            }
-
-            if (!callbakCommand.CanExecute(photo))
-            {
+                if (errorHandleCommand == null) throw;
+                if (!errorHandleCommand.CanExecute(ex)) throw;
+                errorHandleCommand.Execute(ex);
                 return;
             }
 
-            callbakCommand.Execute(photo);
+            if (callbakCommand.CanExecute(photo))
+            {
+                callbakCommand.Execute(photo);
+            }
         }
 
         /// <summary>
@@ -138,7 +132,7 @@ namespace Citrus.Interactions
         /// <returns></returns>
         private async static Task<StorageFile> CaputurePhotoAsync(WrappedCameraCaptureUIPhotoFormat format)
         {
-#if WINDOWS_APP 
+#if WINDOWS_APP
             var camera = new CameraCaptureUI();
 
             camera.PhotoSettings.Format = (CameraCaptureUIPhotoFormat)format;

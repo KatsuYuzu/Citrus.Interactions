@@ -112,7 +112,16 @@ namespace Citrus.Interactions
             // 警告の抑制
             var _ = ExecuteAsync(this.PickerViewMode, this.CallbackCommand, this.ErrorHandleCommand);
 #else
-            PickPhoto(this.PickerViewMode);
+            try
+            {
+                PickPhoto(this.PickerViewMode);
+            }
+            catch (Exception ex)
+            {
+                if (this.ErrorHandleCommand == null) throw;
+                if (!this.ErrorHandleCommand.CanExecute(ex)) throw;
+                this.ErrorHandleCommand.Execute(ex);
+            }
 #endif
 
             return Result.Executed;
@@ -124,34 +133,28 @@ namespace Citrus.Interactions
         /// </summary>
         /// <param name="viewMode">ファイル オープン ピッカーが項目を表示するために使用する表示モード。</param>
         /// <param name="callbakCommand">アクションの実行後に呼び出す <see cref="ICommand"/>。</param>
-        /// <param name="errorHandleCommand">例外発生時に呼び出す <see cref="ICommand"/>。</param>
+        /// /// <param name="errorHandleCommand">例外発生時に呼び出す <see cref="ICommand"/>。</param>
         /// <returns></returns>
         private async static Task ExecuteAsync(PickerViewMode viewMode, ICommand callbakCommand, ICommand errorHandleCommand)
         {
             StorageFile photo;
+
             try
             {
                 photo = await PickPhotoAsync(viewMode);
             }
             catch (Exception ex)
             {
-                if (errorHandleCommand != null && errorHandleCommand.CanExecute(ex))
-                {
-                    errorHandleCommand.Execute(ex);
-                    return;
-                }
-                else
-                {
-                    throw;
-                };
-            }
-
-            if (!callbakCommand.CanExecute(photo))
-            {
+                if (errorHandleCommand == null) throw;
+                if (!errorHandleCommand.CanExecute(ex)) throw;
+                errorHandleCommand.Execute(ex);
                 return;
             }
 
-            callbakCommand.Execute(photo);
+            if (callbakCommand.CanExecute(photo))
+            {
+                callbakCommand.Execute(photo);
+            }
         }
 #endif
 
@@ -166,16 +169,17 @@ namespace Citrus.Interactions
         private static void PickPhoto(PickerViewMode viewMode)
 #endif
         {
-            var picker = new FileOpenPicker();
-
-            picker.ViewMode = viewMode;
-
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            var picker = new FileOpenPicker
+            {
+                ViewMode = viewMode,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
 
             foreach (var extension in SupportedExtensions)
             {
                 picker.FileTypeFilter.Add(extension);
             }
+
 #if WINDOWS_APP
             return await picker.PickSingleFileAsync();
 #else
