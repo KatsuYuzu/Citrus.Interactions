@@ -9,9 +9,9 @@ NuGet, [Citrus.Interactions](https://www.nuget.org/packages/Citrus.Interactions/
 PM> Install-Package Citrus.Interactions
 ```
 
-Sample
+Usage
 ------
-Sample project using `Prism.StoreApps`
+xaml
 ```xml
 <Button Content="PickPhotoAction">
     <Interactivity:Interaction.Behaviors>
@@ -21,6 +21,8 @@ Sample project using `Prism.StoreApps`
     </Interactivity:Interaction.Behaviors>
 </Button>
 ```
+
+ViewModel, Sample used `Prism.StoreApps`
 ```csharp
 private DelegateCommand<StorageFile> pickPhotoCommand;
 public DelegateCommand<StorageFile> PickPhotoCommand
@@ -38,6 +40,19 @@ public DelegateCommand<StorageFile> PickPhotoCommand
 }
 ```
 
+Phone `App.xaml.cs`
+```csharp
+protected override void OnActivated(IActivatedEventArgs args)
+{
+    var e = args as IContinuationActivatedEventArgs;
+    if (e != null)
+    {
+        (this.continuationManager ?? (this.continuationManager = new ContinuationManager()))
+            .Continue(e);
+    }
+}
+```
+
 History
 -------
 ver 1.1.1-alpha - 2014-05-07
@@ -48,3 +63,7 @@ ver 1.1.0-alpha - 2014-05-06
 
 ver 1.0.0.0 - 2014-03-19
 * Released
+
+License
+-------
+under [MIT License](http://opensource.org/licenses/MIT)
