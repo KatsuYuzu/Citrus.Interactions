@@ -21,11 +21,7 @@ namespace Sample.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-#if WINDOWS_PHONE_APP
-    public sealed partial class PickPhotoPage : Page, Citrus.Interactions.IFileOpenPickerContinuable
-#else
     public sealed partial class PickPhotoPage : Page
-#endif
     {
         public PrismNavigationHelper NavigationHelper { get; set; }
 
@@ -55,21 +51,5 @@ namespace Sample.Views
         {
             this.NavigationHelper.OnNavigatedTo(e);
         }
-
-#if WINDOWS_PHONE_APP
-        public void ContinueFileOpenPicker(Windows.ApplicationModel.Activation.FileOpenPickerContinuationEventArgs args)
-        {
-            var photo = args.Files.SingleOrDefault();
-
-            var vm = this.DataContext as Sample.ViewModels.PickPhotoPageViewModel;
-            if (vm != null)
-            {
-                if (vm.PickPhotoCommand.CanExecute(photo))
-                {
-                    vm.PickPhotoCommand.Execute(photo);
-                }
-            }
-        }
-#endif
     }
 }
