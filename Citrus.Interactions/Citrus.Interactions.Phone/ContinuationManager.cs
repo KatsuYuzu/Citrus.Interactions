@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Citrus.Interactions.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,36 +54,37 @@ namespace Citrus.Interactions
             switch (args.Kind)
             {
                 case ActivationKind.PickFileContinuation:
-                    var fileOpenPickerPage = rootFrame.Content as IFileOpenPickerContinuable;
-                    if (fileOpenPickerPage != null)
-                    {
-                        fileOpenPickerPage.ContinueFileOpenPicker(args as FileOpenPickerContinuationEventArgs);
-                    }
+                    ContinuationFileOpenPicker(
+                        rootFrame.Content as Page,
+                        args as FileOpenPickerContinuationEventArgs);
                     break;
 
                 case ActivationKind.PickSaveFileContinuation:
-                    var fileSavePickerPage = rootFrame.Content as IFileSavePickerContinuable;
-                    if (fileSavePickerPage != null)
-                    {
-                        fileSavePickerPage.ContinueFileSavePicker(args as FileSavePickerContinuationEventArgs);
-                    }
                     break;
 
                 case ActivationKind.PickFolderContinuation:
-                    var folderPickerPage = rootFrame.Content as IFolderPickerContinuable;
-                    if (folderPickerPage != null)
-                    {
-                        folderPickerPage.ContinueFolderPicker(args as FolderPickerContinuationEventArgs);
-                    }
                     break;
 
                 case ActivationKind.WebAuthenticationBrokerContinuation:
-                    var wabPage = rootFrame.Content as IWebAuthenticationContinuable;
-                    if (wabPage != null)
-                    {
-                        wabPage.ContinueWebAuthentication(args as WebAuthenticationBrokerContinuationEventArgs);
-                    }
                     break;
+            }
+        }
+
+        private static void ContinuationFileOpenPicker(Page page, FileOpenPickerContinuationEventArgs e)
+        {
+            if (page == null) return;
+            if (e == null) return;
+
+            var pickPhotoAction = page
+                .FindAction<PickPhotoAction>();
+
+            if (pickPhotoAction == null || pickPhotoAction.CallbackCommand == null) return;
+
+            var photo = e.Files.SingleOrDefault();
+
+            if (pickPhotoAction.CallbackCommand.CanExecute(photo))
+            {
+                pickPhotoAction.CallbackCommand.Execute(photo);
             }
         }
 
@@ -132,60 +134,5 @@ namespace Citrus.Interactions
             MarkAsStale();
             return args;
         }
-    }
-
-    /// <summary>
-    /// Implement this interface if your page invokes the file open picker
-    /// API.
-    /// </summary>
-    public interface IFileOpenPickerContinuable
-    {
-        /// <summary>
-        /// This method is invoked when the file open picker returns picked
-        /// files
-        /// </summary>
-        /// <param name="args">Activated event args object that contains returned files from file open picker</param>
-        void ContinueFileOpenPicker(FileOpenPickerContinuationEventArgs args);
-    }
-
-    /// <summary>
-    /// Implement this interface if your page invokes the file save picker
-    /// API
-    /// </summary>
-    public interface IFileSavePickerContinuable
-    {
-        /// <summary>
-        /// This method is invoked when the file save picker returns saved
-        /// files
-        /// </summary>
-        /// <param name="args">Activated event args object that contains returned file from file save picker</param>
-        void ContinueFileSavePicker(FileSavePickerContinuationEventArgs args);
-    }
-
-    /// <summary>
-    /// Implement this interface if your page invokes the folder picker API
-    /// </summary>
-    public interface IFolderPickerContinuable
-    {
-        /// <summary>
-        /// This method is invoked when the folder picker returns the picked
-        /// folder
-        /// </summary>
-        /// <param name="args">Activated event args object that contains returned folder from folder picker</param>
-        void ContinueFolderPicker(FolderPickerContinuationEventArgs args);
-    }
-
-    /// <summary>
-    /// Implement this interface if your page invokes the web authentication
-    /// broker
-    /// </summary>
-    public interface IWebAuthenticationContinuable
-    {
-        /// <summary>
-        /// This method is invoked when the web authentication broker returns
-        /// with the authentication result
-        /// </summary>
-        /// <param name="args">Activated event args object that contains returned authentication token</param>
-        void ContinueWebAuthentication(WebAuthenticationBrokerContinuationEventArgs args);
     }
 }
