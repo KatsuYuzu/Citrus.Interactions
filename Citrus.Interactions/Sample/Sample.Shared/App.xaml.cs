@@ -30,8 +30,9 @@ namespace Sample
     {
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
+        private ContinuationManager continuationManager;
 #endif
-        private UnityContainer container = new UnityContainer();
+        private readonly UnityContainer container = new UnityContainer();
 
         /// <summary>
         /// 単一アプリケーション オブジェクトを初期化します。これは、実行される作成したコードの
@@ -80,10 +81,13 @@ namespace Sample
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
-            rootFrame.ContentTransitions =
-                this.transitions
-                ?? (this.transitions = new TransitionCollection() { new NavigationThemeTransition() });
-            rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+            if (rootFrame != null)
+            {
+                rootFrame.ContentTransitions =
+                    this.transitions
+                    ?? (this.transitions = new TransitionCollection { new NavigationThemeTransition() });
+                rootFrame.Navigated -= this.RootFrame_FirstNavigated;
+            }
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -93,7 +97,8 @@ namespace Sample
             var e = args as IContinuationActivatedEventArgs;
             if (e != null)
             {
-                new ContinuationManager().Continue(e);
+                (this.continuationManager ?? (this.continuationManager = new ContinuationManager()))
+                    .Continue(e);
             }
         }
 #endif
