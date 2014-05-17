@@ -14,6 +14,8 @@ namespace Citrus.Interactions.Internal
     {
         public static IEnumerable<DependencyObject> Children(this DependencyObject obj)
         {
+            if (obj == null) throw new ArgumentNullException("obj");
+
             var childrenCount = VisualTreeHelper.GetChildrenCount(obj);
 
             for (int i = 0; i < childrenCount; i++)
