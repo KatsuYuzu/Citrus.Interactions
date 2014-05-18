@@ -96,6 +96,24 @@ namespace Citrus.Interactions
                                         new PropertyMetadata(PickerViewMode.List));
 
         /// <summary>
+        /// アプリがアクティブ化されたときに、コンテキストを提供するために操作を特定する名前を取得または設定します。
+        /// When the page placed in multiple PickPhotoAction is required.
+        /// </summary>
+        public string OperationName
+        {
+            get { return (string)GetValue(OperationNameProperty); }
+            set { SetValue(OperationNameProperty, value); }
+        }
+        /// <summary>
+        /// OperationName 依存関係プロパティを識別します。
+        /// </summary>
+        public static readonly DependencyProperty OperationNameProperty =
+            DependencyProperty.Register("OperationName",
+                                        typeof(string),
+                                        typeof(PickPhotoAction),
+                                        new PropertyMetadata(null));
+
+        /// <summary>
         /// アクションを実行します。
         /// </summary>
         /// <param name="sender">使用されません。</param>
@@ -114,7 +132,7 @@ namespace Citrus.Interactions
 #else
             try
             {
-                PickPhoto(this.PickerViewMode);
+                PickPhoto(this.PickerViewMode, this.OperationName);
             }
             catch (Exception ex)
             {
@@ -166,7 +184,8 @@ namespace Citrus.Interactions
 #if WINDOWS_APP
         private async static Task<StorageFile> PickPhotoAsync(PickerViewMode viewMode)
 #else
-        private static void PickPhoto(PickerViewMode viewMode)
+        /// <param name="operationName">アプリがアクティブ化されたときに、コンテキストを提供するために操作を特定する名前。</param>
+        private static void PickPhoto(PickerViewMode viewMode, string operationName)
 #endif
         {
             var picker = new FileOpenPicker
@@ -183,6 +202,8 @@ namespace Citrus.Interactions
 #if WINDOWS_APP
             return await picker.PickSingleFileAsync();
 #else
+            ContinuationManager.Current.MarkAsStale();
+            picker.ContinuationData["Operation"] = operationName;
             picker.PickSingleFileAndContinue();
 #endif
         }

@@ -39,7 +39,7 @@ namespace Citrus.Interactions.Internal
             }
         }
 
-        public static T FindAction<T>(this DependencyObject obj)
+        public static T FindAction<T>(this DependencyObject obj, Func<T, bool> predicate)
             where T: IAction
         {
             return obj
@@ -62,7 +62,7 @@ namespace Citrus.Interactions.Internal
                     return null;
                 })
                 .OfType<T>()
-                .SingleOrDefault();
+                .SingleOrDefault(predicate);
         }
     }
 }
