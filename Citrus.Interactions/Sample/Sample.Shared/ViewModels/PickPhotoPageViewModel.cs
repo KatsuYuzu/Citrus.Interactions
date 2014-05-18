@@ -51,7 +51,7 @@ namespace Sample.ViewModels
             get
             {
                 return this.handleErrorCommand
-                    ?? (this.handleErrorCommand = new DelegateCommand<Exception>(
+                    ?? (this.handleErrorCommand = DelegateCommand<Exception>.FromAsyncHandler(
                         async ex =>
                         {
                             await new MessageDialog(ex.Message).ShowAsync();
