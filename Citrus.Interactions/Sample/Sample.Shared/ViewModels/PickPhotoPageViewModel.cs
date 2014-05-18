@@ -4,8 +4,10 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Sample.ViewModels
 {
@@ -19,6 +21,13 @@ namespace Sample.ViewModels
         {
             get { return this.pickedPhotoName; }
             set { SetProperty(ref this.pickedPhotoName, value); }
+        }
+
+        private BitmapImage pickedPhotoImage;
+        public BitmapImage PickedPhotoImage
+        {
+            get { return this.pickedPhotoImage; }
+            set { SetProperty(ref this.pickedPhotoImage, value); }
         }
 
         private DelegateCommand<StorageFile> pickPhotoCommand;
@@ -50,5 +59,24 @@ namespace Sample.ViewModels
             }
         }
 
+        private DelegateCommand<StorageFile> openPhotoCommand;
+        public DelegateCommand<StorageFile> OpenPhotoCommand
+        {
+            get
+            {
+                return this.openPhotoCommand
+                    ?? (this.openPhotoCommand = DelegateCommand<StorageFile>.FromAsyncHandler(
+                        async photo =>
+                        {
+                            using (var stream = await photo.OpenAsync(FileAccessMode.Read))
+                            {
+                                var bitmapImage = new BitmapImage();
+                                await bitmapImage.SetSourceAsync(stream);
+                                this.PickedPhotoImage = bitmapImage;
+                            }
+                        },
+                        photo => photo != null));
+            }
+        }
     }
 }

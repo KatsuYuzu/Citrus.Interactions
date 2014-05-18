@@ -30,7 +30,6 @@ namespace Sample
     {
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
-        private ContinuationManager continuationManager;
 #endif
         private readonly UnityContainer container = new UnityContainer();
 
@@ -97,8 +96,7 @@ namespace Sample
             var e = args as IContinuationActivatedEventArgs;
             if (e != null)
             {
-                (this.continuationManager ?? (this.continuationManager = new ContinuationManager()))
-                    .Continue(e);
+                ContinuationManager.Current.Continue(e);
             }
         }
 #endif

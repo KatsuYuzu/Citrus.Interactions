@@ -16,6 +16,14 @@ namespace Citrus.Interactions
     /// </summary>
     public class ContinuationManager
     {
+        private static readonly ContinuationManager current = new ContinuationManager();
+        public static ContinuationManager Current
+        {
+            get { return current; }
+        }
+
+        private ContinuationManager() { }
+
         IContinuationActivatedEventArgs args = null;
         bool handled = false;
         Guid id = Guid.Empty;
@@ -75,8 +83,10 @@ namespace Citrus.Interactions
             if (page == null) return;
             if (e == null) return;
 
+            var operation = (string)e.ContinuationData["Operation"];
+
             var pickPhotoAction = page
-                .FindAction<PickPhotoAction>();
+                .FindAction<PickPhotoAction>(x => x.OperationName == operation);
 
             if (pickPhotoAction == null || pickPhotoAction.CallbackCommand == null) return;
 
