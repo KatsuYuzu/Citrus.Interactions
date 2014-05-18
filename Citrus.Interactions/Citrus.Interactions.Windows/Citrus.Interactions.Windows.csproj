@@ -113,7 +113,7 @@
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
     <Compile Include="PickPhotoAction.cs" />
-    <Compile Include="CaputurePhotoAction.cs" />
+    <Compile Include="CapturePhotoAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

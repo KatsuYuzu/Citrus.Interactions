@@ -87,8 +87,8 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Citrus.Interactions.Windows\CaputurePhotoAction.cs">
-      <Link>CaputurePhotoAction.cs</Link>
+    <Compile Include="..\Citrus.Interactions.Windows\CapturePhotoAction.cs">
+      <Link>CapturePhotoAction.cs</Link>
     </Compile>
     <Compile Include="..\Citrus.Interactions.Windows\PickPhotoAction.cs">
       <Link>PickPhotoAction.cs</Link>

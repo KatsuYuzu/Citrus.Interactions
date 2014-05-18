@@ -15,14 +15,23 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock TextWrapping="Wrap"
-                   Text="PickPhotoPage"
+                   Text="PickPhoto, CapturePhoto"
                    Style="{StaticResource HeaderTextBlockStyle}" />
-        <StackPanel VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
             <Button Content="PickPhotoAction">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="Click">
                         <Interactions:PickPhotoAction CallbackCommand="{Binding PickPhotoCommand}"
                                                       ErrorHandleCommand="{Binding HandleErrorCommand}" />
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </Button>
+            <Button Content="CapturePhotoAction">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="Click">
+                        <Interactions:CapturePhotoAction CallbackCommand="{Binding PickPhotoCommand}"
+                                                         ErrorHandleCommand="{Binding HandleErrorCommand}" />
                     </Core:EventTriggerBehavior>
                 </Interactivity:Interaction.Behaviors>
             </Button>
