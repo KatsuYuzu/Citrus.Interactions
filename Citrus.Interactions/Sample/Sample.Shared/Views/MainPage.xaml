@@ -14,7 +14,10 @@
         <TextBlock TextWrapping="Wrap"
                    Text="MainPage"
                    Style="{StaticResource HeaderTextBlockStyle}" />
-        <Button Content="Sample: PickPhotoAction"
-                Command="{Binding NavigateToPickPhotoPageCommand}" />
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Button Content="PickPhotoAction, CapturePhotoAction"
+                    Command="{Binding NavigateToPickPhotoPageCommand}" />
+        </StackPanel>
     </Grid>
 </Page>
