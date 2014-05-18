@@ -59,12 +59,6 @@ ver 1.1.1 - 2014-05-18
 * Manually install of Behaviors SDK are now not required
 * Fixed typo CaputurePhotoAction to CapturePhotoAction
 
-ver 1.1.1-alpha - 2014-05-07
-* Manually install of Behaviors SDK are now not required
-
-ver 1.1.0-alpha - 2014-05-06
-* Changed target to UniversalApp
-
 ver 1.0.0.0 - 2014-03-19
 * Released
 
