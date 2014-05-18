@@ -14,7 +14,7 @@ namespace Citrus.Interactions
     /// <summary>
     /// 写真をキャプチャするアクションです。
     /// </summary>
-    public class CaputurePhotoAction : DependencyObject, IAction
+    public class CapturePhotoAction : DependencyObject, IAction
     {
         /// <summary>
         /// アクションの結果を表します。
@@ -39,7 +39,7 @@ namespace Citrus.Interactions
         public static readonly DependencyProperty CallbackCommandProperty =
             DependencyProperty.Register("CallbackCommand",
                                         typeof(ICommand),
-                                        typeof(CaputurePhotoAction),
+                                        typeof(CapturePhotoAction),
                                         new PropertyMetadata(null));
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Citrus.Interactions
         public static readonly DependencyProperty ErrorHandleCommandProperty =
             DependencyProperty.Register("ErrorHandleCommand",
                                         typeof(ICommand),
-                                        typeof(CaputurePhotoAction),
+                                        typeof(CapturePhotoAction),
                                         new PropertyMetadata(null));
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Citrus.Interactions
         public static readonly DependencyProperty PhotoFormatProperty =
             DependencyProperty.Register("PhotoFormat",
                                         typeof(WrappedCameraCaptureUIPhotoFormat),
-                                        typeof(CaputurePhotoAction),
+                                        typeof(CapturePhotoAction),
                                         new PropertyMetadata(WrappedCameraCaptureUIPhotoFormat.Jpeg));
 
         /// <summary>
@@ -106,29 +106,23 @@ namespace Citrus.Interactions
         private async static Task ExecuteAsync(WrappedCameraCaptureUIPhotoFormat format, ICommand callbakCommand, ICommand errorHandleCommand)
         {
             StorageFile photo;
+
             try
             {
-                photo = await CaputurePhotoAsync(format);
+                photo = await CapturePhotoAsync(format);
             }
             catch (Exception ex)
             {
-                if (errorHandleCommand != null && errorHandleCommand.CanExecute(ex))
-                {
-                    errorHandleCommand.Execute(ex);
-                    return;
-                }
-                else
-                {
-                    throw;
-                };
-            }
-
-            if (!callbakCommand.CanExecute(photo))
-            {
+                if (errorHandleCommand == null) throw;
+                if (!errorHandleCommand.CanExecute(ex)) throw;
+                errorHandleCommand.Execute(ex);
                 return;
             }
 
-            callbakCommand.Execute(photo);
+            if (callbakCommand.CanExecute(photo))
+            {
+                callbakCommand.Execute(photo);
+            }
         }
 
         /// <summary>
@@ -136,9 +130,9 @@ namespace Citrus.Interactions
         /// </summary>
         /// <param name="format">キャプチャされた写真を格納する形式を決定します。</param>
         /// <returns></returns>
-        private async static Task<StorageFile> CaputurePhotoAsync(WrappedCameraCaptureUIPhotoFormat format)
+        private async static Task<StorageFile> CapturePhotoAsync(WrappedCameraCaptureUIPhotoFormat format)
         {
-#if WINDOWS_APP 
+#if WINDOWS_APP
             var camera = new CameraCaptureUI();
 
             camera.PhotoSettings.Format = (CameraCaptureUIPhotoFormat)format;
@@ -148,7 +142,7 @@ namespace Citrus.Interactions
             // 警告の抑制
             var _ = await Task.FromResult<StorageFile>(null);
 
-            throw new NotImplementedException("Phone not surrpoted.");
+            throw new NotImplementedException("Phone not supported.");
 #endif
         }
     }
