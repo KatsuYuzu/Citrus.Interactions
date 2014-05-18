@@ -47,8 +47,7 @@ protected override void OnActivated(IActivatedEventArgs args)
     var e = args as IContinuationActivatedEventArgs;
     if (e != null)
     {
-        (this.continuationManager ?? (this.continuationManager = new ContinuationManager()))
-            .Continue(e);
+        ContinuationManager.Current.Continue(e);
     }
 }
 ```
