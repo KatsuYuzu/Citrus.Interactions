@@ -18,6 +18,8 @@
                     HorizontalAlignment="Center">
             <Button Content="PickPhotoAction, CapturePhotoAction"
                     Command="{Binding NavigateToPickPhotoPageCommand}" />
+            <Button Content="LayoutChangeBehavior"
+                    Command="{Binding NavigateToMultiLayoutPageCommand}" />
         </StackPanel>
     </Grid>
 </Page>

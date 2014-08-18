@@ -25,5 +25,19 @@ namespace Sample.ViewModels
                         }));
             }
         }
+
+        private DelegateCommand navigateToMultiLayoutPageCommand;
+        public DelegateCommand NavigateToMultiLayoutPageCommand
+        {
+            get
+            {
+                return this.navigateToMultiLayoutPageCommand
+                    ?? (this.navigateToMultiLayoutPageCommand = new DelegateCommand(
+                        () =>
+                        {
+                            this.NavigationService.Navigate("MultiLayout", null);
+                        }));
+            }
+        }
     }
 }
