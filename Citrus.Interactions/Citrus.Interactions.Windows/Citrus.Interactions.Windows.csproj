@@ -112,6 +112,7 @@
     <Compile Include="..\Citrus.Interactions\Properties\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
+    <Compile Include="LayoutChangeBehavior.cs" />
     <Compile Include="PickPhotoAction.cs" />
     <Compile Include="CapturePhotoAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

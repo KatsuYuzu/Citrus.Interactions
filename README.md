@@ -54,16 +54,13 @@ protected override void OnActivated(IActivatedEventArgs args)
 
 History
 -------
+ver 1.2 - 2014-08-19
+* Added LayoutChangeBehavior
+
 ver 1.1.1 - 2014-05-18
 * Changed target to UniversalApp
 * Manually install of Behaviors SDK are now not required
 * Fixed typo CaputurePhotoAction to CapturePhotoAction
-
-ver 1.1.1-alpha - 2014-05-07
-* Manually install of Behaviors SDK are now not required
-
-ver 1.1.0-alpha - 2014-05-06
-* Changed target to UniversalApp
 
 ver 1.0.0.0 - 2014-03-19
 * Released
