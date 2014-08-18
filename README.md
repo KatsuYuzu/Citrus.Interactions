@@ -54,6 +54,9 @@ protected override void OnActivated(IActivatedEventArgs args)
 
 History
 -------
+ver 1.2 - 2014-08-19
+* Added LayoutChangeBehavior
+
 ver 1.1.1 - 2014-05-18
 * Changed target to UniversalApp
 * Manually install of Behaviors SDK are now not required
